@@ -8,17 +8,22 @@
       {{ letter }}</router-link
     >
   </div>
-  <div>
-    <pre>{{ meals }}</pre>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-5 p-8">
+    <MealItem v-for="meal of meals" :key="meal.idMeal" :meal="meal" />
   </div>
 </template>
 <script setup>
 import { useRoute } from "vue-router";
 import store from "../store";
-import { computed, onMounted } from "vue";
+import { onMounted, watch } from "vue";
+import { computed } from "@vue/reactivity";
+import MealItem from "../components/MealItem.vue";
 const route = useRoute();
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const meals = computed(() => store.state.mealsByLetter);
+watch(route, () => {
+  store.dispatch("searchMealsByLetter", route.params.letter);
+});
 onMounted(() => {
   store.dispatch("searchMealsByLetter", route.params.letter);
 });
