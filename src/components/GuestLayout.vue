@@ -1,2 +1,3 @@
-<template>Login</template>
+<template>Login Page</template>
+
 <script setup></script>
